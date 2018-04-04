@@ -65,15 +65,22 @@ namespace MorseCode
             return morsePhrase;
         }
 
+        static string ConvertToAlpha(string phrase, Dictionary<string, char> reverseMap)
+        {
+            return phrase;
+        }
+
         static void Main(string[] args)
         {
             // Create dictionary with string and with char values
             var morseMap = new Dictionary<char, string>();
             var reverseMorseMap = new Dictionary<string, char>();
-
             var userInputs = new Dictionary<string, string>();
+
+            // Getting filepaths
             const string MORSE_CODE_FILE_PATH = "../../../assets/morse.csv";
             const string USER_OUTPUT_FILE_PATH = "../../../assets/user_output.csv";
+
             // use streamreader to read in the file.
             using (var reader = new StreamReader(MORSE_CODE_FILE_PATH))
             {
@@ -110,40 +117,56 @@ namespace MorseCode
             bool isRunning = true;
             while(isRunning == true)
             {
-                Console.WriteLine("Please type something to convert to morse code");
-                string phrase = Console.ReadLine().ToLower();
-                Console.WriteLine(phrase);
+                Console.WriteLine("What do you want to do? \n" +
+                    "(1) Convert alpha to morse code. \n" +
+                    "(2) Convert morse code to alpha \n" +
+                    "(exit) quit program");
+                string userChoice = Console.ReadLine();
+                string phrase;
 
-                string morsePhrase = ConvertToMorseCode(phrase, morseMap);
-                //for(int i = 0; i < phrase.Count(); i++)
-                //{
-                //    if(phrase[i] == ' ')
-                //    {
-                //        morsePhrase += " / ";
-                //    } else
-                //    {
-                //        morsePhrase += morseMap[phrase[i]] + " ";
-                //    }
-
-                //}
-
-                Console.WriteLine(morsePhrase);
-
-                userInputs.Add(phrase, morsePhrase);
-
-                PrintUserInputs(userInputs);
-                OutputToFile(userInputs, USER_OUTPUT_FILE_PATH);
-
-                Console.WriteLine("Would you like to try converting another phrase? (Y/N)");
-                string userPrompt = Console.ReadLine();
-                if(userPrompt.ToLower() != "y")
+                if(userChoice == "1")
                 {
-                    isRunning = false;
-                    Console.WriteLine("Great! Hope you enjoyed the application!");
-                } else
-                {
-                    Console.WriteLine("Sweet! Let's go do another one!");
+                    Console.WriteLine("Please type something to convert to morse code");
+                    phrase = Console.ReadLine().ToLower();
+                    Console.WriteLine(phrase);
+
+                    string morsePhrase = ConvertToMorseCode(phrase, morseMap);
+
+                    Console.WriteLine(morsePhrase);
+
+                    userInputs.Add(phrase, morsePhrase);
+
+                    PrintUserInputs(userInputs);
+                    OutputToFile(userInputs, USER_OUTPUT_FILE_PATH);
+
+                    Console.WriteLine("Would you like to try converting another phrase? (Y/N)");
+                    string userPrompt = Console.ReadLine();
+                    if (userPrompt.ToLower() != "y")
+                    {
+                        isRunning = false;
+                        Console.WriteLine("Great! Hope you enjoyed the application!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sweet! Let's go do another one!");
+                    }
                 }
+                else if(userChoice == "2")
+                {
+                    Console.WriteLine("Please type something to convert from morse code \n" +
+                        "(Make sure you have spaces to separate characters, and \"/\" to separate words");
+                    phrase = Console.ReadLine().ToLower();
+                    Console.WriteLine(phrase);
+                } else if(userChoice.ToLower() == "exit")
+                {
+                    Console.WriteLine("Great! Hope you enjoyed the game! Later!!!");
+                    isRunning = false;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid command. Please try again");
+                }
+
 
             }
 
