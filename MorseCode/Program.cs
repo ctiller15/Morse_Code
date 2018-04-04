@@ -17,11 +17,22 @@ namespace MorseCode
             }
         }
 
-        static void printUserInputs(Dictionary<string, string> userInputs)
+        static void PrintUserInputs(Dictionary<string, string> userInputs)
         {
             foreach(var input in userInputs)
             {
                 Console.WriteLine($"{input.Key} , {input.Value}");
+            }
+        }
+
+        static void OutputToFile(Dictionary<string, string> outputDict, string filePath)
+        {
+            using (var writer = new StreamWriter(filePath))
+            {
+                foreach (var line in outputDict)
+                {
+                    writer.WriteLine($"{line.Key},{line.Value}");
+                }
             }
         }
 
@@ -87,7 +98,8 @@ namespace MorseCode
 
                 userInputs.Add(phrase, morsePhrase);
 
-                printUserInputs(userInputs);
+                PrintUserInputs(userInputs);
+                OutputToFile(userInputs, USER_OUTPUT_FILE_PATH);
 
                 Console.WriteLine("Would you like to try converting another phrase? (Y/N)");
                 string userPrompt = Console.ReadLine();
