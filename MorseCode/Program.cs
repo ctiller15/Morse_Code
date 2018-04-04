@@ -17,13 +17,23 @@ namespace MorseCode
             }
         }
 
+        static void printUserInputs(Dictionary<string, string> userInputs)
+        {
+            foreach(var input in userInputs)
+            {
+                Console.WriteLine($"{input.Key} , {input.Value}");
+            }
+        }
+
         static void Main(string[] args)
         {
             // Create dictionary with string and with char values
             var morseMap = new Dictionary<char, string>();
-            const string FILE_PATH = "../../../assets/morse.csv";
-            // use stremreader to read in the file.
-            using (var reader = new StreamReader(FILE_PATH))
+            var userInputs = new Dictionary<string, string>();
+            const string MORSE_CODE_FILE_PATH = "../../../assets/morse.csv";
+            const string USER_OUTPUT_FILE_PATH = "../../../assets/user_output.csv";
+            // use streamreader to read in the file.
+            using (var reader = new StreamReader(MORSE_CODE_FILE_PATH))
             {
                 while (reader.Peek() > -1)
                 {
@@ -32,7 +42,26 @@ namespace MorseCode
                 }
             }
 
+            // use streamReader to check if a file exists
+            if (File.Exists(USER_OUTPUT_FILE_PATH))
+            {
+                // if the file exists, read from it!
+                using (var output = new StreamReader(USER_OUTPUT_FILE_PATH))
+                {
+                    while (output.Peek() > -1)
+                    {
+                        var line = output.ReadLine().Split(',');
+                        userInputs.Add(line[0], line[1]);
+                    }
+                }
+            } else
+            {
+                Console.WriteLine("File does not exist, creating file...");
+            }
+
+
             PrintMorseMap(morseMap);
+            Console.WriteLine(userInputs);
 
             bool isRunning = true;
             while(isRunning == true)
@@ -55,6 +84,10 @@ namespace MorseCode
                 }
 
                 Console.WriteLine(morsePhrase);
+
+                userInputs.Add(phrase, morsePhrase);
+
+                printUserInputs(userInputs);
 
                 Console.WriteLine("Would you like to try converting another phrase? (Y/N)");
                 string userPrompt = Console.ReadLine();
