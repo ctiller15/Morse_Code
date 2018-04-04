@@ -29,7 +29,7 @@ namespace MorseCode
                 {
                     var line = reader.ReadLine().Split(',');
                     //Console.WriteLine($"{line[0]} , {line[1]}");
-                    morseMap.Add(Convert.ToChar(line[0]), line[1]);
+                    morseMap.Add(Char.ToLower(Convert.ToChar(line[0])), line[1]);
                 }
             }
 
@@ -39,8 +39,24 @@ namespace MorseCode
             while(isRunning == true)
             {
                 Console.WriteLine("Please type something to convert to morse code");
-                string phrase = Console.ReadLine();
+                string phrase = Console.ReadLine().ToLower();
                 Console.WriteLine(phrase);
+
+                string morsePhrase = "";
+                for(int i = 0; i < phrase.Count(); i++)
+                {
+                    //Console.WriteLine($"{phrase[i]} , {phrase[i] != ' ' ? morseMap[phrase[i]]}");
+                    if(phrase[i] == ' ')
+                    {
+                        morsePhrase += " / ";
+                    } else
+                    {
+                        morsePhrase += morseMap[phrase[i]] + " ";
+                    }
+
+                }
+
+                Console.WriteLine(morsePhrase);
 
                 isRunning = false;
             }
