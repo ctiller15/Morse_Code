@@ -35,6 +35,16 @@ namespace MorseCode
 
             PrintMorseMap(morseMap);
 
+            bool isRunning = true;
+            while(isRunning == true)
+            {
+                Console.WriteLine("Please type something to convert to morse code");
+                string phrase = Console.ReadLine();
+                Console.WriteLine(phrase);
+
+                isRunning = false;
+            }
+
             Console.ReadLine();
             // Grab all of the data in the file.
             // Append it into dictionary.
