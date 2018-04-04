@@ -9,6 +9,14 @@ namespace MorseCode
 {
     class Program
     {
+        static void PrintMorseMap(Dictionary<char, string> morseMap)
+        {
+            foreach(var character in morseMap)
+            {
+                Console.WriteLine($"{character.Key} , {character.Value}");
+            }
+        }
+
         static void Main(string[] args)
         {
             // Create dictionary with string and with char values
@@ -20,9 +28,13 @@ namespace MorseCode
                 while (reader.Peek() > -1)
                 {
                     var line = reader.ReadLine().Split(',');
-                    Console.WriteLine($"{line[0]} , {line[1]}");
+                    //Console.WriteLine($"{line[0]} , {line[1]}");
+                    morseMap.Add(Convert.ToChar(line[0]), line[1]);
                 }
             }
+
+            PrintMorseMap(morseMap);
+
             Console.ReadLine();
             // Grab all of the data in the file.
             // Append it into dictionary.
