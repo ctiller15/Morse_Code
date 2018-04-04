@@ -28,7 +28,6 @@ namespace MorseCode
                 while (reader.Peek() > -1)
                 {
                     var line = reader.ReadLine().Split(',');
-                    //Console.WriteLine($"{line[0]} , {line[1]}");
                     morseMap.Add(Char.ToLower(Convert.ToChar(line[0])), line[1]);
                 }
             }
@@ -45,7 +44,6 @@ namespace MorseCode
                 string morsePhrase = "";
                 for(int i = 0; i < phrase.Count(); i++)
                 {
-                    //Console.WriteLine($"{phrase[i]} , {phrase[i] != ' ' ? morseMap[phrase[i]]}");
                     if(phrase[i] == ' ')
                     {
                         morsePhrase += " / ";
@@ -58,7 +56,17 @@ namespace MorseCode
 
                 Console.WriteLine(morsePhrase);
 
-                isRunning = false;
+                Console.WriteLine("Would you like to try converting another phrase? (Y/N)");
+                string userPrompt = Console.ReadLine();
+                if(userPrompt.ToLower() != "y")
+                {
+                    isRunning = false;
+                    Console.WriteLine("Great! Hope you enjoyed the application!");
+                } else
+                {
+                    Console.WriteLine("Sweet! Let's go do another one!");
+                }
+
             }
 
             Console.ReadLine();
