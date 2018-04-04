@@ -67,6 +67,24 @@ namespace MorseCode
 
         static string ConvertToAlpha(string phrase, Dictionary<string, char> reverseMap)
         {
+            //.--. .-.. . .- ... .  / .-- --- .-. -.-
+            var splitPhrase = phrase.Split(' ');
+            Console.WriteLine(splitPhrase);
+            for(int i = 0; i < splitPhrase.Count(); i++)
+            {
+                Console.WriteLine(splitPhrase[i]);
+                if (reverseMap.ContainsKey(splitPhrase[i]))
+                {
+                    Console.WriteLine($"{splitPhrase[i]} , {reverseMap[splitPhrase[i]]}");
+                    splitPhrase[i] = reverseMap[splitPhrase[i]].ToString();
+                }
+                else if(splitPhrase[i] == "/")
+                {
+                    Console.WriteLine(" ");
+                    splitPhrase[i] = " ";
+                }
+            }
+            Console.WriteLine(string.Join("", splitPhrase));
             return phrase;
         }
 
@@ -120,6 +138,7 @@ namespace MorseCode
                 Console.WriteLine("What do you want to do? \n" +
                     "(1) Convert alpha to morse code. \n" +
                     "(2) Convert morse code to alpha \n" +
+                    "(3) Print all inputs \n" +
                     "(exit) quit program");
                 string userChoice = Console.ReadLine();
                 string phrase;
@@ -157,10 +176,16 @@ namespace MorseCode
                         "(Make sure you have spaces to separate characters, and \"/\" to separate words");
                     phrase = Console.ReadLine().ToLower();
                     Console.WriteLine(phrase);
+
+                    string alphaPhrase = ConvertToAlpha(phrase, reverseMorseMap);
                 } else if(userChoice.ToLower() == "exit")
                 {
                     Console.WriteLine("Great! Hope you enjoyed the game! Later!!!");
                     isRunning = false;
+                }
+                else if(userChoice == "3")
+                {
+                    PrintUserInputs(userInputs);
                 }
                 else
                 {
