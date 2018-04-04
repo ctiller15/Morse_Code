@@ -46,7 +46,7 @@ namespace MorseCode
 
         static string ConvertToMorseCode(string phrase, Dictionary<char, string> morseMap)
         {
-            Console.WriteLine(phrase);
+            //Console.WriteLine(phrase);
             string morsePhrase = "";
 
             for (int i = 0; i < phrase.Count(); i++)
@@ -55,9 +55,12 @@ namespace MorseCode
                 {
                     morsePhrase += " / ";
                 }
-                else
+                else if (morseMap.ContainsKey(phrase[i])) 
                 {
                     morsePhrase += morseMap[phrase[i]] + " ";
+                } else
+                {
+                    morsePhrase += phrase[i] + " ";
                 }
 
             }
@@ -69,22 +72,22 @@ namespace MorseCode
         {
             //.--. .-.. . .- ... .  / .-- --- .-. -.-
             var splitPhrase = phrase.Split(' ');
-            Console.WriteLine(splitPhrase);
+            //Console.WriteLine(splitPhrase);
             for(int i = 0; i < splitPhrase.Count(); i++)
             {
-                Console.WriteLine(splitPhrase[i]);
+                //Console.WriteLine(splitPhrase[i]);
                 if (reverseMap.ContainsKey(splitPhrase[i]))
                 {
-                    Console.WriteLine($"{splitPhrase[i]} , {reverseMap[splitPhrase[i]]}");
+                    //Console.WriteLine($"{splitPhrase[i]} , {reverseMap[splitPhrase[i]]}");
                     splitPhrase[i] = reverseMap[splitPhrase[i]].ToString();
                 }
                 else if(splitPhrase[i] == "/")
                 {
-                    Console.WriteLine(" ");
+                    //Console.WriteLine(" ");
                     splitPhrase[i] = " ";
                 }
             }
-            Console.WriteLine(string.Join("", splitPhrase));
+            phrase = string.Join("", splitPhrase);
             return phrase;
         }
 
@@ -127,15 +130,10 @@ namespace MorseCode
                 Console.WriteLine("File does not exist, creating file...");
             }
 
-
-            PrintMorseMap(morseMap);
-            PrintReverseMorseMap(reverseMorseMap);
-            //Console.WriteLine(userInputs);
-
             bool isRunning = true;
             while(isRunning == true)
             {
-                Console.WriteLine("What do you want to do? \n" +
+                Console.WriteLine("\n\nWhat do you want to do? \n\n" +
                     "(1) Convert alpha to morse code. \n" +
                     "(2) Convert morse code to alpha \n" +
                     "(3) Print all inputs \n" +
@@ -147,11 +145,11 @@ namespace MorseCode
                 {
                     Console.WriteLine("Please type something to convert to morse code");
                     phrase = Console.ReadLine().ToLower();
-                    Console.WriteLine(phrase);
+                    //Console.WriteLine(phrase);
 
                     string morsePhrase = ConvertToMorseCode(phrase, morseMap);
 
-                    Console.WriteLine(morsePhrase);
+                    Console.WriteLine($"\n{phrase} in morse code is {morsePhrase} \n");
 
                     userInputs.Add(phrase, morsePhrase);
 
@@ -172,12 +170,14 @@ namespace MorseCode
                 }
                 else if(userChoice == "2")
                 {
-                    Console.WriteLine("Please type something to convert from morse code \n" +
+                    Console.WriteLine("\n\nPlease type something to convert from morse code \n" +
                         "(Make sure you have spaces to separate characters, and \"/\" to separate words");
                     phrase = Console.ReadLine().ToLower();
-                    Console.WriteLine(phrase);
+                    //Console.WriteLine(phrase);
 
                     string alphaPhrase = ConvertToAlpha(phrase, reverseMorseMap);
+                    Console.WriteLine("\n\n");
+                    Console.WriteLine(alphaPhrase);
                 } else if(userChoice.ToLower() == "exit")
                 {
                     Console.WriteLine("Great! Hope you enjoyed the game! Later!!!");
