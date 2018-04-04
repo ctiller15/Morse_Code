@@ -17,6 +17,14 @@ namespace MorseCode
             }
         }
 
+        static void PrintReverseMorseMap(Dictionary<string, char> morseMap)
+        {
+            foreach (var character in morseMap)
+            {
+                Console.WriteLine($"{character.Key} , {character.Value}");
+            }
+        }
+
         static void PrintUserInputs(Dictionary<string, string> userInputs)
         {
             foreach(var input in userInputs)
@@ -36,10 +44,33 @@ namespace MorseCode
             }
         }
 
+        static string ConvertToMorseCode(string phrase, Dictionary<char, string> morseMap)
+        {
+            Console.WriteLine(phrase);
+            string morsePhrase = "";
+
+            for (int i = 0; i < phrase.Count(); i++)
+            {
+                if (phrase[i] == ' ')
+                {
+                    morsePhrase += " / ";
+                }
+                else
+                {
+                    morsePhrase += morseMap[phrase[i]] + " ";
+                }
+
+            }
+
+            return morsePhrase;
+        }
+
         static void Main(string[] args)
         {
             // Create dictionary with string and with char values
             var morseMap = new Dictionary<char, string>();
+            var reverseMorseMap = new Dictionary<string, char>();
+
             var userInputs = new Dictionary<string, string>();
             const string MORSE_CODE_FILE_PATH = "../../../assets/morse.csv";
             const string USER_OUTPUT_FILE_PATH = "../../../assets/user_output.csv";
@@ -50,6 +81,7 @@ namespace MorseCode
                 {
                     var line = reader.ReadLine().Split(',');
                     morseMap.Add(Char.ToLower(Convert.ToChar(line[0])), line[1]);
+                    reverseMorseMap.Add(line[1], Char.ToLower(Convert.ToChar(line[0])));
                 }
             }
 
@@ -72,7 +104,8 @@ namespace MorseCode
 
 
             PrintMorseMap(morseMap);
-            Console.WriteLine(userInputs);
+            PrintReverseMorseMap(reverseMorseMap);
+            //Console.WriteLine(userInputs);
 
             bool isRunning = true;
             while(isRunning == true)
@@ -81,18 +114,18 @@ namespace MorseCode
                 string phrase = Console.ReadLine().ToLower();
                 Console.WriteLine(phrase);
 
-                string morsePhrase = "";
-                for(int i = 0; i < phrase.Count(); i++)
-                {
-                    if(phrase[i] == ' ')
-                    {
-                        morsePhrase += " / ";
-                    } else
-                    {
-                        morsePhrase += morseMap[phrase[i]] + " ";
-                    }
+                string morsePhrase = ConvertToMorseCode(phrase, morseMap);
+                //for(int i = 0; i < phrase.Count(); i++)
+                //{
+                //    if(phrase[i] == ' ')
+                //    {
+                //        morsePhrase += " / ";
+                //    } else
+                //    {
+                //        morsePhrase += morseMap[phrase[i]] + " ";
+                //    }
 
-                }
+                //}
 
                 Console.WriteLine(morsePhrase);
 
