@@ -48,7 +48,6 @@ namespace MorseCode
 
         static string ConvertToMorseCode(string phrase, Dictionary<char, string> morseMap)
         {
-            //Console.WriteLine(phrase);
             string morsePhrase = "";
 
             for (int i = 0; i < phrase.Count(); i++)
@@ -64,28 +63,21 @@ namespace MorseCode
                 {
                     morsePhrase += phrase[i] + " ";
                 }
-
             }
-
             return morsePhrase;
         }
 
         static string ConvertToAlpha(string phrase, Dictionary<string, char> reverseMap)
         {
-            //.--. .-.. . .- ... .  / .-- --- .-. -.-
             var splitPhrase = phrase.Split(' ');
-            //Console.WriteLine(splitPhrase);
             for(int i = 0; i < splitPhrase.Count(); i++)
             {
-                //Console.WriteLine(splitPhrase[i]);
                 if (reverseMap.ContainsKey(splitPhrase[i]))
                 {
-                    //Console.WriteLine($"{splitPhrase[i]} , {reverseMap[splitPhrase[i]]}");
                     splitPhrase[i] = reverseMap[splitPhrase[i]].ToString();
                 }
                 else if(splitPhrase[i] == "/")
                 {
-                    //Console.WriteLine(" ");
                     splitPhrase[i] = " ";
                 }
             }
@@ -152,7 +144,6 @@ namespace MorseCode
                 {
                     Console.WriteLine("\nPlease type something to convert to morse code");
                     phrase = Console.ReadLine().ToLower();
-                    //Console.WriteLine(phrase);
 
                     string morsePhrase = ConvertToMorseCode(phrase, morseMap);
 
@@ -165,8 +156,6 @@ namespace MorseCode
                     {
                         userInputs.Add(phrase, morsePhrase);
                     }
-
-                    //PrintUserInputs(userInputs);
                     OutputToFile(userInputs, USER_OUTPUT_FILE_PATH);
 
                     Console.WriteLine("\nWould you like to keep using the program? (Y/N)");
@@ -186,7 +175,6 @@ namespace MorseCode
                     Console.WriteLine("\nPlease type something to convert from morse code \n" +
                         "(Make sure you have spaces to separate characters, and \"/\" to separate words\n");
                     phrase = Console.ReadLine().ToLower();
-                    //Console.WriteLine(phrase);
 
                     string alphaPhrase = ConvertToAlpha(phrase, reverseMorseMap);
                     Console.WriteLine($"\n---------------------------------------------\n" +
@@ -200,19 +188,13 @@ namespace MorseCode
                 else if(userChoice == "3")
                 {
                     PrintUserInputs(userInputs);
-                    //Console.WriteLine("\n");
                 }
                 else
                 {
                     Console.WriteLine("Invalid command. Please try again");
                 }
-
-
             }
-
             Console.ReadLine();
-            // Grab all of the data in the file.
-            // Append it into dictionary.
         }
     }
 }
