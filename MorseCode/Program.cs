@@ -46,6 +46,13 @@ namespace MorseCode
             }
         }
 
+        static void PrintStrings(string str1, string str2, string type)
+        {
+            Console.WriteLine($"\n---------------------------------------------\n\n" +
+            $"'{str1}' in {(type == "alpha" ? "morse code" : "alphabetical characters")} is '{str2}' \n" +
+            $"\n---------------------------------------------\n");
+        }
+
         static string ConvertToMorseCode(string phrase, Dictionary<char, string> morseMap)
         {
             string morsePhrase = "";
@@ -147,9 +154,7 @@ namespace MorseCode
 
                     string morsePhrase = ConvertToMorseCode(phrase, morseMap);
 
-                    Console.WriteLine($"\n---------------------------------------------\n\n" +
-                        $"'{phrase}' in morse code is '{morsePhrase}' \n" +
-                        $"\n---------------------------------------------\n");
+                    PrintStrings(phrase, morsePhrase, "alpha");
 
                     // Check to see if the file already has the phrase. If not,save it.
                     if(!userInputs.ContainsKey(phrase))
@@ -158,17 +163,6 @@ namespace MorseCode
                     }
                     OutputToFile(userInputs, USER_OUTPUT_FILE_PATH);
 
-                    Console.WriteLine("\nWould you like to keep using the program? (Y/N)");
-                    string userPrompt = Console.ReadLine();
-                    if (userPrompt.ToLower() != "y")
-                    {
-                        isRunning = false;
-                        Console.WriteLine("Great! Hope you enjoyed the application!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Sweet! Let's go do another one!");
-                    }
                 }
                 else if(userChoice == "2")
                 {
@@ -177,9 +171,8 @@ namespace MorseCode
                     phrase = Console.ReadLine().ToLower();
 
                     string alphaPhrase = ConvertToAlpha(phrase, reverseMorseMap);
-                    Console.WriteLine($"\n---------------------------------------------\n" +
-                        $"\n'{phrase}' in alphabetical characters is '{alphaPhrase}'" +
-                        $"\n---------------------------------------------\n");
+                    PrintStrings(phrase, alphaPhrase, "morse");
+
                 } else if(userChoice.ToLower() == "exit")
                 {
                     Console.WriteLine("Great! Hope you enjoyed the game! Later!!!");
