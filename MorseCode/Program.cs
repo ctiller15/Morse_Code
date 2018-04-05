@@ -27,10 +27,12 @@ namespace MorseCode
 
         static void PrintUserInputs(Dictionary<string, string> userInputs)
         {
+            Console.WriteLine("\n");
             foreach(var input in userInputs)
             {
                 Console.WriteLine($"{input.Key} , {input.Value}");
             }
+            Console.WriteLine("---------------------------------------------");
         }
 
         static void OutputToFile(Dictionary<string, string> outputDict, string filePath)
@@ -93,6 +95,8 @@ namespace MorseCode
 
         static void Main(string[] args)
         {
+            bool isRunning = true;
+
             // Create dictionary with string and with char values
             var morseMap = new Dictionary<char, string>();
             var reverseMorseMap = new Dictionary<string, char>();
@@ -130,33 +134,42 @@ namespace MorseCode
                 Console.WriteLine("File does not exist, creating file...");
             }
 
-            bool isRunning = true;
+            Console.WriteLine("*********************************************\n" +
+                "***Welcome to the Morse Code Translator!!!***\n" +
+                "*********************************************");
+
             while(isRunning == true)
             {
-                Console.WriteLine("\n\nWhat do you want to do? \n\n" +
-                    "(1) Convert alpha to morse code. \n" +
-                    "(2) Convert morse code to alpha \n" +
-                    "(3) Print all inputs \n" +
-                    "(exit) quit program");
+                Console.WriteLine("\nWhat do you want to do? \n\n" +
+                    "(1) Convert alphabetical to morse code. \n" +
+                    "(2) Convert morse code to alphabetical \n" +
+                    "(3) Print all saved alpha-morse translations \n" +
+                    "(exit) quit program\n");
                 string userChoice = Console.ReadLine();
                 string phrase;
 
                 if(userChoice == "1")
                 {
-                    Console.WriteLine("Please type something to convert to morse code");
+                    Console.WriteLine("\nPlease type something to convert to morse code");
                     phrase = Console.ReadLine().ToLower();
                     //Console.WriteLine(phrase);
 
                     string morsePhrase = ConvertToMorseCode(phrase, morseMap);
 
-                    Console.WriteLine($"\n{phrase} in morse code is {morsePhrase} \n");
+                    Console.WriteLine($"\n---------------------------------------------\n\n" +
+                        $"'{phrase}' in morse code is '{morsePhrase}' \n" +
+                        $"\n---------------------------------------------\n");
 
-                    userInputs.Add(phrase, morsePhrase);
+                    // Check to see if the file already has the phrase. If not,save it.
+                    if(!userInputs.ContainsKey(phrase))
+                    {
+                        userInputs.Add(phrase, morsePhrase);
+                    }
 
-                    PrintUserInputs(userInputs);
+                    //PrintUserInputs(userInputs);
                     OutputToFile(userInputs, USER_OUTPUT_FILE_PATH);
 
-                    Console.WriteLine("Would you like to try converting another phrase? (Y/N)");
+                    Console.WriteLine("\nWould you like to keep using the program? (Y/N)");
                     string userPrompt = Console.ReadLine();
                     if (userPrompt.ToLower() != "y")
                     {
@@ -170,14 +183,15 @@ namespace MorseCode
                 }
                 else if(userChoice == "2")
                 {
-                    Console.WriteLine("\n\nPlease type something to convert from morse code \n" +
-                        "(Make sure you have spaces to separate characters, and \"/\" to separate words");
+                    Console.WriteLine("\nPlease type something to convert from morse code \n" +
+                        "(Make sure you have spaces to separate characters, and \"/\" to separate words\n");
                     phrase = Console.ReadLine().ToLower();
                     //Console.WriteLine(phrase);
 
                     string alphaPhrase = ConvertToAlpha(phrase, reverseMorseMap);
-                    Console.WriteLine("\n\n");
-                    Console.WriteLine(alphaPhrase);
+                    Console.WriteLine($"\n---------------------------------------------\n" +
+                        $"\n'{phrase}' in alphabetical characters is '{alphaPhrase}'" +
+                        $"\n---------------------------------------------\n");
                 } else if(userChoice.ToLower() == "exit")
                 {
                     Console.WriteLine("Great! Hope you enjoyed the game! Later!!!");
@@ -186,6 +200,7 @@ namespace MorseCode
                 else if(userChoice == "3")
                 {
                     PrintUserInputs(userInputs);
+                    //Console.WriteLine("\n");
                 }
                 else
                 {
